@@ -9,7 +9,6 @@ export class TnsOAuthClientAppDelegate {
   public static setConfig(client: TnsOAuthClient, urlScheme: string) {
     this._client = client;
     this._urlScheme = urlScheme;
-
     appModule.android.on(
       appModule.AndroidApplication.activityResumedEvent,
       function(args) {
@@ -24,6 +23,7 @@ export class TnsOAuthClientAppDelegate {
           TnsOAuthClientAppDelegate._client.resumeWithUrl(url);
           console.log(args.activity.getIntent().getData());
         }
+        appModule.android.off(appModule.AndroidApplication.activityResumedEvent);
       }
     );
   }
