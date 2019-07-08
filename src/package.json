@@ -1,6 +1,6 @@
 {
   "name": "nativescript-oauth2",
-  "version": "1.5.3",
+  "version": "1.5.3-nanometrics",
   "description": "OAuth 2 generic authorization plugin for NativeScript that doesn't install third party native libraries",
   "main": "oauth",
   "typings": "index.d.ts",
@@ -78,5 +78,8 @@
     "querystring": "0.2.0",
     "url": "0.11.0"
   },
-  "bootstrapper": "nativescript-plugin-seed"
+  "bootstrapper": "nativescript-plugin-seed",
+  "publishConfig": {
+    "registry": "https://nexus.nmx.ca/repository/npm-releases/"
+  }
 }
