@@ -46,6 +46,46 @@ export function authorizationCodeFromRedirectUrl(url: string): string {
   return authorizationCode;
 }
 
+export function idTokenFromRedirectUrl(url: string): string {
+  let idToken: string = null;
+
+  if (url) {
+    let parsedRetStr = UrlLib.parse(url);
+
+    let qsObj = querystring.parse(parsedRetStr.query);
+    idToken = qsObj["id_token"];
+  }
+  return idToken;
+}
+
+export function accessTokenFromRedirectUrl(url: string): string {
+  let accessToken: string = null;
+
+  if (url) {
+    let parsedRetStr = UrlLib.parse(url);
+
+    let qsObj = querystring.parse(parsedRetStr.query);
+    accessToken = qsObj["access_code"];
+  }
+  return accessToken;
+}
+
+export function errorFromRedirectUrl(url: string): object {
+  let error: object = null;
+
+  if (url) {
+    let parsedRetStr = UrlLib.parse(url);
+
+    let qsObj = querystring.parse(parsedRetStr.query);
+    if (!!qsObj['#error']) {
+      error = {
+          'name': qsObj['#error'],
+          'message': qsObj['error_description']
+      };
+    }
+  }
+  return error;
+}
 export function getAccessTokenUrlStr(provider: TnsOaProvider): string {
   let retStr = "";
   if (provider.tokenEndpointBase && provider.tokenEndpointBase !== "") {

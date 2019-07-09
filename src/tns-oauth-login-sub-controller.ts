@@ -12,6 +12,9 @@ import { TnsOAuthClientConnection } from "./tns-oauth-client-connection";
 import {
   getAuthUrlStr,
   authorizationCodeFromRedirectUrl,
+  accessTokenFromRedirectUrl,
+  idTokenFromRedirectUrl,
+  errorFromRedirectUrl,
   getAccessTokenUrlWithCodeStr
 } from "./tns-oauth-utils";
 
@@ -91,6 +94,35 @@ export class TnsOAuthLoginSubController {
       }
     }
     return codeExchangeUrl;
+  }
+
+  private tokenIdTokenCompletion(
+    url: string,
+    completion: TnsOAuthClientLoginBlock
+  ) {
+      let _this = this;
+      let responseCompletion;
+      if (completion) {
+          responseCompletion = function (url) {
+              let accessToken = accessTokenFromRedirectUrl(url);
+              let idToken = idTokenFromRedirectUrl(url);
+
+              let error = errorFromRedirectUrl(url);
+              if (!! error) {
+                  completion(null, error);
+              }
+              else {
+                let tokenResult = {
+                          'accessToken': accessToken,
+                          'idToken': idToken
+                      };
+                  _this.client.tokenResult = tokenResult;
+                  completion(tokenResult, error);
+              }
+          };
+      }
+      const connection: TnsOAuthClientConnection = TnsOAuthClientConnection.initWithRequestClientCompletion(this.client, responseCompletion);
+      connection.completion(url);
   }
 
   private codeExchangeWithUrlCompletion(

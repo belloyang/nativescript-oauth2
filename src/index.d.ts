@@ -6,11 +6,11 @@ import { TnsOaProvider, TnsOaProviderType } from "./providers";
 
 export declare interface ITnsOAuthTokenResult {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   idToken: string;
-  accessTokenExpiration: Date;
-  refreshTokenExpiration: Date;
-  idTokenExpiration: Date;
+  accessTokenExpiration?: Date;
+  refreshTokenExpiration?: Date;
+  idTokenExpiration?: Date;
 }
 
 export type TnsOAuthClientLoginBlock = (
